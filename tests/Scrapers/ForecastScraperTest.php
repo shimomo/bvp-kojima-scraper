@@ -45,7 +45,7 @@ final class ForecastScraperTest extends TestCase
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage(
             "BVP\KojimaScraper\Scrapers\ForecastScraper::scrapeYesterday() - " .
-            "The specified key 'table.kojima-table.neraime-table > tbody > tr > td > span.num-box' is not found in the content of the URL: " .
+            "The specified key 'table.kojima-table.neraime-table > tbody > tr > td.data.comment' is not found in the content of the URL: " .
             "'https://hj.kojima-yosou.com/hjpc/index/20240103/01'."
         );
 

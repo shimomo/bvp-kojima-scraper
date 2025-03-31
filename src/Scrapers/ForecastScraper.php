@@ -40,8 +40,8 @@ class ForecastScraper extends BaseScraper
         $crawlerUrl = sprintf($this->baseUrl, $date, $raceCode);
         $crawler = Scraper::getInstance()->request('GET', $crawlerUrl);
         $forecasts = Scraper::filterByKeys($crawler, [
-            'table.kojima-table.neraime-table > tbody > tr > td > span.num-box',
             'table.kojima-table.neraime-table > tbody > tr > td.data.comment',
+            'table.kojima-table.neraime-table > tbody > tr > td > span.num-box',
             'table.kojima-table.neraime-table > tbody > tr > td.focus > table.yosou-focus > tbody > tr > td > div',
         ]);
 
@@ -54,14 +54,14 @@ class ForecastScraper extends BaseScraper
             }
         }
 
-        $reporterYesterdayCourseLabel = '記者予想 前日コース';
         $reporterYesterdayCommentLabel = '記者予想 前日コメント';
+        $reporterYesterdayCourseLabel = '記者予想 前日コース';
         $reporterYesterdayFocusLabel = '記者予想 前日フォーカス';
         $reporterYesterdayFocusExactaLabel = '記者予想 前日フォーカス 2連単';
         $reporterYesterdayFocusTrifectaLabel = '記者予想 前日フォーカス 3連単';
 
-        $reporterYesterdayCourse = Normalizer::normalize(implode($forecasts['table.kojima-table.neraime-table > tbody > tr > td > span.num-box']));
         $reporterYesterdayComment = Normalizer::normalize($forecasts['table.kojima-table.neraime-table > tbody > tr > td.data.comment'][0] ?? '');
+        $reporterYesterdayCourse = Normalizer::normalize(implode($forecasts['table.kojima-table.neraime-table > tbody > tr > td > span.num-box']));
         $reporterYesterdayFocus = $forecasts['table.kojima-table.neraime-table > tbody > tr > td.focus > table.yosou-focus > tbody > tr > td > div'];
         $reporterYesterdayFocus = Normalizer::normalize($reporterYesterdayFocus, ['shouldRemoveAllSpaces' => true]);
         $reporterYesterdayFocusExacta = array_values(array_filter($reporterYesterdayFocus, function ($focus) {
@@ -72,10 +72,10 @@ class ForecastScraper extends BaseScraper
         }));
 
         return [
-            'reporter_yesterday_course_label' => $reporterYesterdayCourseLabel,
-            'reporter_yesterday_course' => $reporterYesterdayCourse,
             'reporter_yesterday_comment_label' => $reporterYesterdayCommentLabel,
             'reporter_yesterday_comment' => $reporterYesterdayComment,
+            'reporter_yesterday_course_label' => $reporterYesterdayCourseLabel,
+            'reporter_yesterday_course' => $reporterYesterdayCourse,
             'reporter_yesterday_focus_label' => $reporterYesterdayFocusLabel,
             'reporter_yesterday_focus' => $reporterYesterdayFocus,
             'reporter_yesterday_focus_exacta_label' => $reporterYesterdayFocusExactaLabel,
