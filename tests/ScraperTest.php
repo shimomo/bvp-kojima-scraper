@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace BVP\KojimaScraper\Tests;
 
 use BVP\KojimaScraper\Scraper;
+use BVP\KojimaScraper\ScraperInterface;
 use PHPUnit\Framework\Attributes\DataProviderExternal;
 use PHPUnit\Framework\TestCase;
 
@@ -103,5 +104,35 @@ final class ScraperTest extends TestCase
         );
 
         Scraper::invalid(1, '2024-01-03');
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetInstance(): void
+    {
+        Scraper::resetInstance();
+        $this->assertInstanceOf(ScraperInterface::class, Scraper::getInstance());
+    }
+
+    /**
+     * @return void
+     */
+    public function testCreateInstance(): void
+    {
+        Scraper::resetInstance();
+        $this->assertInstanceOf(ScraperInterface::class, Scraper::createInstance());
+    }
+
+    /**
+     * @return void
+     */
+    public function testResetInstance(): void
+    {
+        Scraper::resetInstance();
+        $instance1 = Scraper::getInstance();
+        Scraper::resetInstance();
+        $instance2 = Scraper::getInstance();
+        $this->assertNotSame($instance1, $instance2);
     }
 }
